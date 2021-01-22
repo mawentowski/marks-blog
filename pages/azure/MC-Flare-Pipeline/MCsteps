@@ -1,0 +1,27 @@
+check to see if there is already a Git folder and delete it.
+Set new output folder so its top level (test out different directories)
+    https://stackoverflow.com/questions/55724970/azure-build-pipeline-yaml-template-reference
+Open Flare project in VS Code (say do not edit normal files here
+we are just using it to create files not supported in Flare like YML)
+Initialize local git repo
+Add a 404.html file
+create new proj in azure for MC flare site
+Comit files to Azure
+Create a new storage account
+    Current resource group is jekyll-site, this should be more board like 
+    site-resource - resource
+    sitehostacc - storage account
+
+
+
+    Under static website - Index document name: Default.htm
+    Under Error document path - add 404.html
+
+Create a storage account with multiple Blob containers
+https://azure.microsoft.com/en-us/resources/templates/101-storage-multi-blob-container/
+
+
+Benefits of hosting Flare in Azure:
+You can set up a continuous deploy pipeline rather than manually coping
+files to a server each time.
+Whenever a commit is made on Master, then it is pushed to that $web folder.

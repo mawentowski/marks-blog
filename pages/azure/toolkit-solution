@@ -1,0 +1,22 @@
+Use the static site as a portal that links to other websites.
+Edits are made in markdown.
+
+Problems:
+Not mobile responsive
+Header does not float
+The columns and row size require manual adjustment, they do not automatically fit correctly to content.
+The links have to be made to open in a new window instead of automatically, this means they are missed.
+Duplication of links across toolkits (add as includes)
+SME cant see when a file has been upload. He can get a notification now.
+Uploading files
+Arduous - If they have access to our library it could be a mess. What controls can we put in place.
+Alternative for tracker.
+
+Consideration:
+Use ticketing system in Azure instead.
+Drop off folder from feedback mechanism directly into a place for neha to find and she
+gets a notification.
+You can use conditional tags to populate the site for each audience.
+
+Checklist for person uploading document
+

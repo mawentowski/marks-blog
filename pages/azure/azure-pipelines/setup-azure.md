@@ -12,8 +12,13 @@ This is the introductory page and the start of the blog
 # Setting Up Azure storage static website for Jekyll
 <!-- start of chapter -->Use your personal gmail account instead because you must work with company on security of these items. This will be for purely demonstrative purposes. The endpoint you use will be a public one. You will need to redo later. Do not do this with proprietary info until you have consulted with your company.
 
+## Prerequisites:
+ - Google Chrome
+
 ## Sign Up for Mircosoft Outlook
 If you already have a personal Microsoft Outlook email, you may skip this step.
+<!-- They can do this from Azure homepage, change this.. -->
+
 
 1. Go to [https://outlook.live.com](https://outlook.live.com/owa/).
 1. Click **Create Free Account**.
@@ -85,7 +90,14 @@ ask about what needs to be done. -->
    - A **successfully updated...** message should display in the top-right corner, and a primary/secondary endpoint should also display on the page.
 1. Copy the **Primary endpoint** and store it somewhere for retrieval later.
 
+   Your screen should look similar to below:
+
+![staticsite-config](/images/myimages/staticsite-config.png)
+
 {% include note.html content="The Primary endpoint is the address where you can see your static site after publishing. It is recommended you save this endpoint to your browser as you will be visiting it a lot." %}
+
+<!-- Insert next button like Tom's blog-->
+The next step is to create build and release pipelines inside Azure Dev Ops that deploy your site to the blob storage container.
 
 <!-- 
 Read this:
