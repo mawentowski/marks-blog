@@ -31,7 +31,7 @@ When you're working with tech docs, a lot of times you have builds that push fil
 
 Here's an example:
 
-{% include image.html file="itermexample.png" caption="iTerm profile example" %}
+{% include image-tom.html file="itermexample.png" caption="iTerm profile example" %}
 
 ## Launching a profile
 

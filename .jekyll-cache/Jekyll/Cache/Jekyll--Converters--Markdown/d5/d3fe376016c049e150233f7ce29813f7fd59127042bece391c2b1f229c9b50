@@ -1,0 +1,185 @@
+I"�.<h1 id="set-up-build-and-release-pipelines">Set Up Build and Release Pipelines</h1>
+
+<h2 id="build-pipeline-yaml-file">Build-Pipeline YAML File</h2>
+<p>In the root directory of your project, there is a definition file called <code class="language-plaintext highlighter-rouge">build-pipeline.yml</code>.</p>
+
+<p><!-- Insert screenshot? --></p>
+
+<p>This file <em>defines</em> the build and release pipelines of your static site. In essence, whenever a build is triggered (ex. a commit or merge on the <code class="language-plaintext highlighter-rouge">master</code> branch), the commands in the <code class="language-plaintext highlighter-rouge">build-pipeline.yml</code> are executed.</p>
+
+<p>Jekyll commands are run to <em>build</em> the static site (i.e. build pipeline), then the <em>release</em> pipeline publishes the build to the storage account you set up previously in the blob container at <code class="language-plaintext highlighter-rouge">$web</code>.</p>
+
+<!-- Info or tip.. -->
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The same jekyll commands you would normally execute from the command line to build your site locally are performed here, except they are now executed automatically on the server. The process of automating the build and release of code is called <em>Continuous Integration/Deployment</em> in the DevOps world, and the aim here to apply the same principles using these pipelines to documentation projects.</div>
+
+<p>Once published, your static site can then be viewed at your static sites’s endpoint (i.e. URL you type in the browser to view the site). The location of which was discussed in the previous section.</p>
+
+<!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/ruby?view=azure-devops Good resource for Ruby apps!-->
+<h3 id="summary-of-executed-commands">Summary of Executed Commands</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gem install jekyll bundler</code> - Installs Jekyll.</li>
+  <li><code class="language-plaintext highlighter-rouge">bundle install</code> - Installs the dependencies specified in your Gemfile.</li>
+  <li><code class="language-plaintext highlighter-rouge">jekyll build</code> builds the site and outputs a static site to a directory called <code class="language-plaintext highlighter-rouge">_site</code> in your project.</li>
+</ul>
+
+<p>After Jekyll successfully builds the site, the <code class="language-plaintext highlighter-rouge">_site</code> folder is copied to the build pipeline artifacts folder where it can be accessed for the build pipeline.</p>
+
+<!-- What happens in the Release pipeline? -->
+
+<!-- Dont use quotes, use italics for emphasis. Use ex. for examples, i.e. for in other words, and use code snippet for file names. Bold for onscreen buttons, etc. -->
+<h1 id="set-up-build-pipeline">Set Up Build Pipeline</h1>
+<ol>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>, sign in to your account (not work account), and open your Jekyll project.</li>
+  <li>From inside your project in Azure DevOps, click <strong>Pipelines</strong>.</li>
+  <li>Click <strong>Create Pipeline</strong>.</li>
+  <li>Select <strong>Azure Repos Git</strong>.</li>
+  <li>Select your Jekyll project.</li>
+  <li>Click <strong>Existing Azure Pipelines YAML file</strong>.</li>
+  <li>Under <strong>Path</strong>, select <code class="language-plaintext highlighter-rouge">/build-pipeline.yml</code>.</li>
+  <li>Click <strong>Continue</strong>.
+    <ul>
+      <li>A <strong>Review your pipeline YAML</strong> displays.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Run</strong> to run the build pipeline.
+    <ul>
+      <li>Under <strong>Jobs</strong>, <strong>Status</strong> should read <code class="language-plaintext highlighter-rouge">Success</code>.</li>
+    </ul>
+  </li>
+  <li>Click <code class="language-plaintext highlighter-rouge">published</code> to confirm the static site has been published to the <strong>Artifacts</strong> folder. The <code class="language-plaintext highlighter-rouge">site</code> folder should be there as shown below.<!-- Elaborate on this. Also, show screenshot -->
+<!-- Continue to Azure Storage Explorer to do a test upload, cannot figure this out -->
+    <h2 id="set-up-release-pipeline">Set Up Release Pipeline</h2>
+  </li>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>, sign in to your account (not work account), and open your Jekyll project.</li>
+  <li>Click <strong>Pipelines</strong>.</li>
+  <li>Click <strong>Releases</strong>.</li>
+  <li>If you are prompted to create a job, close this window.</li>
+  <li>Click the release name at the top and rename it to something like <code class="language-plaintext highlighter-rouge">Jekyll Release</code>.</li>
+  <li>Add a comment like <code class="language-plaintext highlighter-rouge">Renamed Pipeline.</code></li>
+</ol>
+
+<h3 id="add-an-artifact">Add an Artifact</h3>
+<ol>
+  <li>Click <strong>Add an artifact</strong>.</li>
+  <li>Under <strong>Source</strong>, select your Jekyll project.
+    <ul>
+      <li>This tells the release pipeline to use the files (i.e. artifacts) generated from the build pipeline in the <strong>Artifacts</strong> folder as inputs.</li>
+      <li>The other fields should automatically populate.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Add</strong>.</li>
+</ol>
+
+<h3 id="add-a-stage">Add a Stage</h3>
+<p>Release pipelines contain alteast one stage compromised of one or more tasks.</p>
+
+<ol>
+  <li>In the <strong>Stages</strong> box, click the <strong>Add</strong> drop-down.</li>
+  <li>Select <strong>New Stage</strong>.</li>
+  <li>Click <strong>Empty Job</strong>.</li>
+  <li>For <strong>Stage name</strong>, type <code class="language-plaintext highlighter-rouge">Publish Artifacts</code>.</li>
+  <li>Close this window.
+    <ul>
+      <li>A stage is created with an empty job.</li>
+    </ul>
+  </li>
+  <li>Click the <code class="language-plaintext highlighter-rouge">1 job, 0 task</code> link.</li>
+  <li>Click the plus icon next to <strong>Agent job</strong>.</li>
+  <li>In the search field, type <code class="language-plaintext highlighter-rouge">command</code>
+    <ul>
+      <li><strong>Command line</strong> should display in the search results at the top.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Add</strong>.</li>
+  <li>Click <strong>Command Line Script</strong> underneath <strong>Agent Job</strong>.</li>
+  <li>For <strong>Display Name</strong>, enter <code class="language-plaintext highlighter-rouge">Clean Artifact Folder</code>.</li>
+  <li>In the <strong>Script</strong> box, type the following code:</li>
+</ol>
+
+<!-- See if there is snytax highlighting in output, bash causing
+problems -->
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>del *.yml
+del *.gemspec
+</code></pre></div></div>
+<ol>
+  <li>For <strong>Working Directory</strong>, select the <code class="language-plaintext highlighter-rouge">site</code> folder and click <strong>Ok</strong>.</li>
+</ol>
+
+<h3 id="add-an-azure-cli-job">Add an Azure CLI Job</h3>
+<ol>
+  <li>Click the plus button next to <strong>Agent job</strong>.</li>
+  <li>Type <code class="language-plaintext highlighter-rouge">Azure CLI</code> in the search field, select it, then click <strong>Add</strong>.
+    <ul>
+      <li>The <strong>Azure CLI</strong> job has been added to the pipeline.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Azure CLI</strong> underneath <strong>Agent Job</strong>.
+<!-- It cost 30 dollars to create the storage container and post files there --></li>
+  <li>For <strong>Display Name</strong>, type <code class="language-plaintext highlighter-rouge">Upload Artifacts to Blob Container</code></li>
+  <li>For <strong>Azure subscription</strong>, click the drop-down arrow and select the <code class="language-plaintext highlighter-rouge">Free Trial</code> subscription.</li>
+  <li>Ensure you are using Google Chrome and not another browser, otherwise it may stall after entering your credentials.</li>
+  <li>Click <strong>Authorize</strong>.</li>
+  <li>Sign in using your username and password.
+<!-- Need to get Hail to verify you are doing the most secure thing --></li>
+  <li>For <strong>Script Type</strong>, select <code class="language-plaintext highlighter-rouge">Batch</code>.</li>
+  <li>For <strong>Script Location</strong>, select <code class="language-plaintext highlighter-rouge">Inline Script</code>.</li>
+  <li>
+    <p>Enter the following into the <strong>Inline Script</strong> box, replacing <code class="language-plaintext highlighter-rouge">account-name</code> with the name of your storage account:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">az storage blob upload-batch --source site --destination $web --account-name [INSERT STORAGE ACCOUNT NAME NO BRACKETS!] --output table --no-progres</code>.</p>
+  </li>
+  <li>For <strong>Working Directory</strong>, select your project folder (not site). Here is an example:
+-<code class="language-plaintext highlighter-rouge">$(System.DefaultWorkingDirectory)/_jekyll-project</code></li>
+  <li>Click <strong>Save</strong> at the top.</li>
+  <li>For the <strong>Comment</strong>, enter something like <code class="language-plaintext highlighter-rouge">Initial version of release pipeline completed.</code></li>
+</ol>
+
+<h3 id="create-a-new-release">Create a New Release</h3>
+<ol>
+  <li>Click <strong>Create Release</strong> at the top-right of the screen.</li>
+  <li>For <em>*Stages for trigger…</em>, select <code class="language-plaintext highlighter-rouge">Publish Artifacts</code> (or a name you chose previously.)</li>
+  <li>For <strong>Release description</strong>, you may leave it blank.</li>
+  <li>Click <strong>Create</strong>.</li>
+</ol>
+
+<h3 id="deploy-to-live-site">Deploy to Live Site</h3>
+<ol>
+  <li>Click <strong>Publish Artifacts</strong> under <strong>Stages</strong>.
+    <ul>
+      <li>You will notice it says <em>Not Deployed</em>.</li>
+    </ul>
+  </li>
+  <li>Click the <strong>Deploy</strong> button.</li>
+  <li>Add a comment like <code class="language-plaintext highlighter-rouge">First deployment</code> and click <strong>Deploy</strong>.
+    <ul>
+      <li>If successful, it will say <code class="language-plaintext highlighter-rouge">Succeeded</code> under the name of the Agent job.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="verify-site-is-live">Verify Site is Live</h3>
+<ol>
+  <li>Go to Azure Storage Explorer and open the $web blog container.
+    <ul>
+      <li>You should see the static site files.</li>
+    </ul>
+  </li>
+  <li>Go to Google Chrome, enter the endpoint (URL) of your site, and hit Enter.</li>
+  <li>Your static site should load</li>
+</ol>
+
+<!-- Idea! DO that Azure popup for context help. You access it by clicking help on the Pipelines page.-->
+<!-- Setup Jenkinds with Github pages idea -->
+
+<h2 id="handling-deleted-files">Handling Deleted Files</h2>
+<p>If files are deleted locally, then the release pipleine will not know to remove them from the live site.</p>
+
+<p>My recommendation is to delete the files manually, both locally using Windows Explorer <!-- What about mac --> and from the live site using Azure Storage Explorer. You do not need to worry about the build pipeline, those files are always regenerated based on the files currently in your Azure repo.</p>
+
+<p>An alternative is the “clean slate” approach where you remove all files from the live site before new ones are uploaded to the <strong>Artifacts</strong> folder after a build. That way, any deleted files will not be present the next time your site is published.</p>
+
+<p>It may also be possible to add a job that somehow compares the files in the <strong>Artifacts</strong> folder after a build against the files in the live site, then subsequently looks for files no longer present and removes them. I have not experimented with this approach.</p>
+
+<p>Either way, I do not believe it is too big a hassle to clean out the old files manually, but make the best decision for your situation.</p>
+:ET

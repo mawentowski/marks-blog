@@ -1,0 +1,44 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: Azure Solutions
+  version: 1.0
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Setup Static Site Pipelines
+    output: web, pdf
+    folderitems:
+    - title: Configure Storage Account
+      url: /setup-azure.html
+      output: web
+
+    - title: Repositorie Set up
+      url: /setup-repos.html
+      output: web, pdf
+
+    - title: Pipeline Set up
+      url: /setup-pipeline.html
+      output: web, pdf
+
+    - title: CDN
+      url: /setup-CDN.html
+      output: web, pdf
+
+    - title: Azure Explorer
+      url: /azure-explorer.html
+      output: web, pdf
