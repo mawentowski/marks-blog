@@ -1,4 +1,4 @@
-I"ç<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
+I"Á"<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
 <p>In the previous section, you:</p>
 <ul>
   <li>Downloaded the sample Jekyll project and initialized a local git repo</li>
@@ -64,6 +64,7 @@
   <li>Click <strong>Run</strong> to run the build pipeline.
     <ul>
       <li>Under <strong>Jobs</strong>, <strong>Status</strong> should read <code class="language-plaintext highlighter-rouge">Success</code>.</li>
+      <li>If not, continue to <a href="build-pipeline.html#trouble">Troubleshooting Build Errors</a></li>
     </ul>
   </li>
   <li>Click <code class="language-plaintext highlighter-rouge">published</code> to confirm the static site has been published to the <strong>Artifacts</strong> folder.</li>
@@ -74,6 +75,26 @@
 <ul>
   <li>The <code class="language-plaintext highlighter-rouge">site</code> folder should be present as a build artifact.</li>
 </ul>
+
+<h2 id="trouble">Troubleshooting Build Errors</h2>
+
+<p>While the<code class="language-plaintext highlighter-rouge">build-pipeline.yml file</code> you added to the project was designed to work with this sample project (hopefully), there is potential for errors if you are using the same build file with a different Jekyll project (such as when you implement this solution in the future).</p>
+
+<p>This is because most jekyll projects have unique <code class="language-plaintext highlighter-rouge">gem</code> files with different gem dependencies that require specific commands to be used (and not others). For example, certain jekyll projects require different build commands.</p>
+
+<p><em>For basic troubleshooting:</em></p>
+<ol>
+  <li>Open the job (if not already open).</li>
+  <li>Look for the section of the build file that the build failed on, indicated by a red marker.</li>
+  <li>Read the message associated with build failing.
+    <ul>
+      <li>Sometimes the suggestions to resolve the issue are helpful, othertimes they are too obscure to understand fully (especially when dealing with gem dependencies).</li>
+    </ul>
+  </li>
+  <li>Try to resolve the issue based on the error message received.</li>
+</ol>
+
+<p>The most common issue I came across was during the execution of jekyll build commands. If you are using <code class="language-plaintext highlighter-rouge">bundle exec jekyll build</code> in the build file, try <code class="language-plaintext highlighter-rouge">jekyll build</code>, or vice versa.</p>
 
 <h2 id="upload-and-view-manaully">Upload and View Manaully</h2>
 <p>These steps demonstrate how to manually download the build artifacts, upload them to blob storage, then view the site at the static site‚Äôs endpoint in the browser.</p>

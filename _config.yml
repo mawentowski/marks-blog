@@ -114,8 +114,7 @@ description: "Intended as a documentation theme based on Jekyll for technical wr
 
 # needed for sitemap.xml file only
 
-#url: tomjoht.github.io
-#baseurl: /documentation-theme-jekyll
-
+url: mawentowski.github.io
+baseurl: /marks-blog
 
 github: [metadata]
