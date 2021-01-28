@@ -1,0 +1,226 @@
+I"�8<!-- Add note on distinction of shell sessions -->
+<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
+<p>In the previous section, you:</p>
+<ul>
+  <li>Signed up for a new Azure account.</li>
+  <li>Created a new free trial subscription.</li>
+  <li>Created a new storage account.</li>
+  <li>Configured the static website from within your storage account.</li>
+</ul>
+
+<p>As a result, Azure generated a primary endpoint to access your new site and also created a new <a href="https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#:~:text=Azure%20Blob%20storage%20is%20Microsoft's,as%20text%20or%20binary%20data.">blob container</a> called <code class="language-plaintext highlighter-rouge">$web</code>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The following are required to complete this section:</p>
+<ul>
+  <li><strong>Visual Studio Code</strong>, or another text editor.</li>
+  <li><strong>Git Bash</strong>, if using Windows (comes with installation of Git)</li>
+  <li><strong>Azure</strong> account and free subscription (covered previously)</li>
+  <li><strong>Ruby 2.5</strong> or newer (full install)</li>
+  <li><strong>Jekyll</strong> (free)</li>
+  <li><strong>Azure Storage Explorer</strong> (free)</li>
+</ul>
+
+<h2 id="sign-in-to-azure-devops">Sign In to Azure DevOps</h2>
+<ol>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>.</li>
+  <li>If you are automatically signed in, click the circle with your initials in the top-right corner.</li>
+  <li>If this is your work account (company email), select the account you created in the previous section, click <strong>Sign in with a different account</strong>.</li>
+</ol>
+
+<h2 id="create-new-organization">Create New Organization</h2>
+<p>An organization in Azure, according to Microsoft, “is mechanism for organizing and connecting groups of related projects”. The organization is based on the organizational structure of a business (i.e. divisions). The organization you create does not need to take these factors into consideration, as only a basic organization is required to complete these steps.</p>
+
+<p><em>To create an organization:</em></p>
+<ol>
+  <li>After signing in, click <strong>Create a new organization</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/create-org.png" alt="create-org" /><figcaption>Get Started Page</figcaption></figure>
+
+<ol start="2">
+  <li>Follow the onscreen prompts until you reach the <strong>Create a project to get started</strong> screen.</li>
+  <li>Name the project something like <code class="language-plaintext highlighter-rouge">jekyll-proj</code>.</li>
+  <li>Select <strong>Private</strong> and create the project.</li>
+</ol>
+
+<div class="alert alert-success" role="alert"><i class="fa fa-check-square-o"></i> <b>Tip:</b> Bookmark the URL of the location of your project for ease of access later.</div>
+
+<div class="bs-callout bs-callout-success">With the creation of an organization, you are now ready to set up your local repository and connect it to a remote repository in Azure DevOps.</div>
+
+<h2 id="download-sample-jekyll-project-from-github">Download Sample Jekyll Project from GitHub</h2>
+<p>The static site you will deploy in Azure is a <a href="https://jekyllrb.com/">Jekyll</a> site, a common static site generator used for blogs and other documentation projects.</p>
+
+<div class="alert alert-success" role="alert"><i class="fa fa-check-square-o"></i> <b>Tip:</b> There are several methods for accessing the sample project’s code on GitHub. However, it is recommended you do not clone or fork the sample repository. Instead, simply download the project as a zip file onto your machine.</div>
+
+<p><em>To download the project:</em></p>
+<ol>
+  <li>Go to <a href="https://github.com/gpeipman/JekyllBlog">https://github.com/gpeipman/JekyllBlog</a>.</li>
+  <li>Click <strong>Code</strong> drop-down.</li>
+  <li>Select <strong>Download Zip</strong></li>
+</ol>
+
+<figure><img class="docimage" src="images/download-zip.png" alt="download-zip" /><figcaption>Git Repo Sample Project</figcaption></figure>
+
+<ol start="4">
+  <li>Download the <code class="language-plaintext highlighter-rouge">jekyll-proj</code> project to a dedicated location for your git repositories on your computer.
+    <ul>
+      <li>For example, you can create a folder called <code class="language-plaintext highlighter-rouge">Repos</code> in your <strong>Documents</strong> folder on your root directory.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> Always store your git repositories in your root directory, otherwise you may encounter permissions errors. Your root directory is something like <code class="language-plaintext highlighter-rouge">C:\Users\firstName.lastName\</code> for Windows and <code class="language-plaintext highlighter-rouge">/Users/userName/</code> for Mac.</div>
+
+<ol start="5">
+  <li>After downloading the file to the desired location, unzip it.</li>
+</ol>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> There is no <code class="language-plaintext highlighter-rouge">.git</code> folder yet because it is not a git repository yet.</div>
+
+<div class="bs-callout bs-callout-success">With the sample project downloaded, you will initialize a local git repo encompassing your project files as described in the next steps..</div>
+
+<!-- Talk about difference between project and repo -->
+<!-- Look up cost for hosting mutliple files and how that is possibe. Also definitions of resources, etc. -->
+<h2 id="set-up-local-git-repo">Set Up Local Git Repo</h2>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> In the following section, there are numerous references to running different commands <em>on the command line</em>. This is referring to the use of a command-line interface (CLI) like <strong>Command Prompt</strong>/<strong>Powershell</strong>/<strong>Git Bash</strong> <em>on Windows</em>, or the <strong>Terminal</strong> app <em>on Mac</em> (in addition to other command-line tools on either OS).</div>
+
+<h3 id="initialize-a-git-repository">Initialize a Git Repository</h3>
+<p>Initializing a git repository on your project creates a <code class="language-plaintext highlighter-rouge">.git</code> folder. The project will now be tracked locally in source control.</p>
+
+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> You must initialize the <code class="language-plaintext highlighter-rouge">git</code> repository from the top-level directory in your sample project, as described in the next steps. Otherwise, you will likely encounter errors.</div>
+
+<p><em>To initialize a repo:</em></p>
+<ol>
+  <li>Navigate to the project directory where you downloaded the sample project.</li>
+  <li>Type <code class="language-plaintext highlighter-rouge">git init</code> to initialize a new git repo that will now track your project files.
+<!-- It is confusing when switching between regular file explorer to command line --></li>
+  <li>Navigate to your project folder using <strong>File Explorer</strong> <em>on Windows</em>, or <strong>Finder</strong> on <em>Mac</em>.</li>
+  <li>Confirm the <code class="language-plaintext highlighter-rouge">.git</code> folder is inside your project folder. If it is not visible, ensure that <a href="git-repos.html#verify">hidden files</a> are revealed.</li>
+</ol>
+
+<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i> <b>Warning:</b> If the <strong>.git</strong> folder is not visible and hidden files are visible, you likely initialized your git directory either within the parent folder of your project, or within one of your project folders. If you locate the .<strong>git</strong> folder in either of these locations, delete it, then initialize a new git repo from within the top-level directory of your project folder. Not initalizing the git repo in your project folder will cause issues later.</div>
+
+<h3 id="verify">Display Hidden Files</h3>
+
+<p>It is important that hidden files are displayed so you can verify the location of your <code class="language-plaintext highlighter-rouge">.git</code> folder after initializing a git repo.</p>
+
+<p>On <em>Windows</em>:</p>
+<ol>
+  <li>Ensure you are using <strong>File Explorer</strong> (and not another command-line tool), and you are located within your project folder.</li>
+  <li>Verify if the <code class="language-plaintext highlighter-rouge">.git</code> folder is present. If not, continue.</li>
+  <li>Click the <strong>View</strong> tab at the top.</li>
+  <li>Click the <strong>Options</strong> drop-down arrow and select <strong>Change folder and search options</strong>.</li>
+  <li>Select the <strong>Show hidden files, folders, and drives</strong> radio button.</li>
+  <li>Click <strong>Ok</strong>.
+    <ul>
+      <li>The <code class="language-plaintext highlighter-rouge">.git</code> folder should be visible inside your project folder.</li>
+    </ul>
+  </li>
+</ol>
+
+<figure><img class="docimage" src="images/reveal-hidden-win.png" alt="reveal-hidden-win" /><figcaption>Hidden Git folder revealed</figcaption></figure>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Hidden files display in File Explorer are transparent. You will notice the <code class="language-plaintext highlighter-rouge">.git</code> folder is transparent because it is a file normally hidden from view.</div>
+
+<p><em>On Mac</em>:</p>
+<ol>
+  <li>Ensure you are using <strong>Finder</strong> (and not another command-line tool), and you are located within your project folder.</li>
+  <li>Hold down <code class="language-plaintext highlighter-rouge">cmd + shift + [.]</code>.
+    <ul>
+      <li>The <strong>.git</strong> folder should be visible inside your project folder.
+<!-- Add Mac screenshot --></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="commit-files-locally">Commit Files Locally</h3>
+
+<p>After you download a sample project and initialize a Git repo, all the files in the repository are <em>untracked</em>, which means Git does not recognize the project files yet. You must <code class="language-plaintext highlighter-rouge">add</code> the files to tell Git they exist, then commit them locally.</p>
+
+<p><em>To commit files locally:</em></p>
+<ol>
+  <li>Type <code class="language-plaintext highlighter-rouge">git add --all</code> to add the untracked files in your project to the staging area.</li>
+  <li>Type <code class="language-plaintext highlighter-rouge">git commit -m "first commit"</code> in your command line tool and hit Enter.
+    <ul>
+      <li>This command commits the project’s tracked files to your local repo.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b> While committing the files creates a save state locally, they still need to be pushed to the repo remote to be visible in Azure and made available to pipelines.</div>
+
+<h3 id="establish-connection-to-remote-repo">Establish Connection to Remote Repo</h3>
+<p>Before committing files to your Azure DevOps remote repository, you must configure your local repository to use your DevOps repo as its remote. You will need to copy your remote repository’s HTTPS link in Azure DevOps.</p>
+
+<p><em>To acquire the HTTPS link:</em></p>
+<ol>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>, sign in to your account (not work account), and open <code class="language-plaintext highlighter-rouge">jekyll-proj</code>.</li>
+  <li>From inside your project in Azure DevOps, click <strong>Repos</strong>.</li>
+  <li>With the <strong>HTTPS</strong> button selected (usually by default), click the copy button. <!-- Show screenshot --></li>
+</ol>
+
+<figure><img class="docimage" src="images/copy-remote.png" alt="copy-remote" /><figcaption>Repo tab of Azure DevOps</figcaption></figure>
+
+<ul>
+  <li>The repo URL is now copied to your clipboard.
+   <!-- Do this process in source tree next time --></li>
+</ul>
+
+<p><em>To set the remote repo as origin:</em></p>
+
+<ol>
+  <li>Open your command-line tool.</li>
+  <li>Ensure you are located within your project directory.</li>
+  <li>Type <code class="language-plaintext highlighter-rouge">git remote add origin</code> followed by the URL you copied previously from Azure DevOps.
+    <ul>
+      <li><em>Example:</em> <code class="language-plaintext highlighter-rouge">git remote add origin https://outlookUser@dev.azure.com/outlookUser/jekyll-project/_git/jekyll-project</code></li>
+    </ul>
+  </li>
+  <li>Type <code class="language-plaintext highlighter-rouge">git remote show origin</code> to confirm the connection between your local repo (on your machine) and the remote repo (in Azure DevOps).
+    <ul>
+      <li>You may be prompted to sign into Azure.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="push-local-files-to-remote-repo">Push Local Files to Remote Repo</h3>
+<ol>
+  <li>Type <code class="language-plaintext highlighter-rouge">git push --set-upstream origin master</code>.
+    <ul>
+      <li>This sets the remote repo as “upstream” and pushes your files to the remote repo on Azure.</li>
+    </ul>
+  </li>
+  <li>From inside your project in Azure DevOps, click <strong>Repos</strong>, or refresh the page if you are already there.
+    <ul>
+      <li>You should now see the project files you pushed from your local git repo to this remote repo in Azure.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="bs-callout bs-callout-success">With your project files now pushed to Azure, you are ready to beginning setting pipelines to build and publish your static site.</div>
+
+<!--Blog topic -- essential Visual Studio code tools for tech writers, mardown, spellcheck>
+
+command line basics
+Structure root vs personal
+Press up and down to locate recent commands
+Difference URLs mac and Windows.
+pwd
+Locate directory you want to put your git directory in file explorer
+Cd to that directory
+look at directory on computer, it is now there.
+Do PWD directory and you will see you are one up from it
+Do ls to list files
+Copy the name of repo from the list
+CD into directory cd marks-blog
+git status
+if you cloned a repo, then it will be up to date with origin/master
+if you created a blank remote repo (like azure) then you need to do below command
+Do git add --all, or do the A to add all of the files
+git commit -a -m "random commit"
+click trash can to delete terminal session
+Cmd tilda to bring up terminal
+-->
+:ET

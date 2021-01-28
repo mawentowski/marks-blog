@@ -1,0 +1,146 @@
+I"Ñ<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The Release pipeline takes the build artifacts and uploads them to the blob storage container in your storage called <code class="language-plaintext highlighter-rouge">$web</code>.</div>
+
+<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
+<p>In the previous section, you:</p>
+<ul>
+  <li>Set up the build pipeline</li>
+  <li>Manually uploaded your site Storage Explorer</li>
+</ul>
+
+<p>As a result, you may now create a release pipeline later triggers after a successful build and deploys the static site.</p>
+
+<h2 id="set-up-the-release-pipeline">Set up the Release Pipeline</h2>
+<p><em>To set up the release pipeline:</em></p>
+<ol>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>, sign in to your account (not work account), and open your Jekyll project.</li>
+  <li>Click <strong>Pipelines</strong>.</li>
+  <li>Click <strong>Releases</strong>.</li>
+  <li>If you are prompted to create a job, close this window.</li>
+  <li>Click the release name at the top and rename it to something like <code class="language-plaintext highlighter-rouge">Jekyll Release Pipeline</code>.</li>
+  <li>Add a comment like <code class="language-plaintext highlighter-rouge">Renamed Pipeline.</code></li>
+</ol>
+
+<h3 id="add-an-artifact">Add an Artifact</h3>
+
+<p>Artifacts are created after a successful build and are now available to the release pipeline to use as inputs.</p>
+
+<p><em>To add an artifact:</em></p>
+<ol>
+  <li>Click <strong>Add an artifact</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/add-artifact.png" alt="add-artifact" /><figcaption>New release pipeline page</figcaption></figure>
+
+<ol start="2">
+  <li>Under <strong>Source</strong>, select your Jekyll project.
+    <ul>
+      <li>This tells the release pipeline to use the files (i.e. artifacts) generated from the build pipeline in the <strong>Artifacts</strong> folder as inputs.</li>
+      <li>The other fields should automatically populate.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Add</strong>.
+    <ul>
+      <li>The release pipeline now will use the build artifacts as inputs.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="add-a-stage">Add a Stage</h3>
+
+<p>Release pipelines contain alteast one stage compromised of one or more tasks. A stage is just a way of grouping tasks in a logical order.</p>
+
+<p><em>To add a stage:</em></p>
+
+<ol>
+  <li>In the <strong>Stages</strong> box, click the <strong>Add</strong> drop-down.</li>
+  <li>Select <strong>New Stage</strong>.</li>
+</ol>
+
+<!-- Need new screenshot of this -->
+<ol>
+  <li>Click <strong>Empty Job</strong>.</li>
+  <li>For <strong>Stage name</strong>, type <code class="language-plaintext highlighter-rouge">Publish Artifacts</code>.</li>
+  <li>Close this window.
+    <ul>
+      <li>A stage is created with an empty job.</li>
+    </ul>
+  </li>
+  <li>Click the <code class="language-plaintext highlighter-rouge">1 job, 0 task</code> link.</li>
+</ol>
+
+<figure><img class="docimage" src="images/1-job-0-task.png" alt="1-job-0-task" /><figcaption>Showing published artifacts release pipeline</figcaption></figure>
+
+<ol start="5">
+  <li>Click the plus icon next to <strong>Agent job</strong>.</li>
+  <li>In the search field, type <code class="language-plaintext highlighter-rouge">command</code>
+    <ul>
+      <li><strong>Command line</strong> should display in the search results at the top.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Add</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/agent-job.png" alt="agent-job" /><figcaption>Showing how to add a command line task</figcaption></figure>
+
+<ol start="8">
+  <li>Click <strong>Command Line Script</strong> underneath <strong>Agent Job</strong>.</li>
+  <li>For <strong>Display Name</strong>, enter <code class="language-plaintext highlighter-rouge">Clean Artifact Folder</code>.</li>
+  <li>In the <strong>Script</strong> box, type the following code:</li>
+</ol>
+
+<!-- See if there is snytax highlighting in output, bash causing
+problems -->
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>del <span class="k">*</span>.yml
+del <span class="k">*</span>.gemspec
+</code></pre></div></div>
+
+<ol start="11">
+  <li>For <strong>Working Directory</strong>, select the <code class="language-plaintext highlighter-rouge">site</code> folder and click <strong>Ok</strong>.</li>
+</ol>
+
+<h3 id="add-an-azure-cli-job">Add an Azure CLI Job</h3>
+
+<p>The Azure CLI job uploads the build artifacts to the <code class="language-plaintext highlighter-rouge">$web</code> blob container where it can be accessed by a browser.</p>
+
+<p><em>To add an Azure CLI job:</em></p>
+
+<ol>
+  <li>Click the plus button next to <strong>Agent job</strong>.</li>
+  <li>Type <code class="language-plaintext highlighter-rouge">Azure CLI</code> in the search field, select it, then click <strong>Add</strong>.
+    <ul>
+      <li>The <strong>Azure CLI</strong> job has been added to the pipeline.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Azure CLI</strong> underneath <strong>Agent Job</strong>.
+<!-- It cost 30 dollars to create the storage container and post files there --></li>
+  <li>For <strong>Display Name</strong>, type <code class="language-plaintext highlighter-rouge">Upload Artifacts to Blob Container</code></li>
+  <li>For <strong>Azure subscription</strong>, click the drop-down arrow and select the <code class="language-plaintext highlighter-rouge">Free Trial</code> subscription.</li>
+  <li>Ensure you are using Google Chrome and not another browser, otherwise it may stall after entering your credentials.</li>
+  <li>Click <strong>Authorize</strong>.</li>
+  <li>Sign in using your username and password.
+<!-- Need to get Hail to verify you are doing the most secure thing --></li>
+  <li>For <strong>Script Type</strong>, select <code class="language-plaintext highlighter-rouge">Batch</code>.</li>
+  <li>For <strong>Script Location</strong>, select <code class="language-plaintext highlighter-rouge">Inline Script</code>.</li>
+  <li>
+    <p>Enter the following into the <strong>Inline Script</strong> box, replacing <code class="language-plaintext highlighter-rouge">account-name</code> with the name of your storage account:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">az storage blob upload-batch --source site --destination $web --account-name [INSERT STORAGE ACCOUNT NAME NO BRACKETS!] --output table --no-progres</code>.</p>
+
+    <ul>
+      <li>The task should look like the following:</li>
+    </ul>
+  </li>
+</ol>
+
+<figure><img class="docimage" src="images/upload-artifacts.png" alt="upload-artifacts" /><figcaption>Upload artifacts task populated with data</figcaption></figure>
+
+<ol>
+  <li>For <strong>Working Directory</strong>, select your project folder (not site). Here is an example:
+-<code class="language-plaintext highlighter-rouge">$(System.DefaultWorkingDirectory)/_jekyll-project</code></li>
+  <li>Click <strong>Save</strong> at the top.</li>
+  <li>For the <strong>Comment</strong>, enter something like <code class="language-plaintext highlighter-rouge">Initial version of release pipeline completed.</code></li>
+</ol>
+
+<div class="bs-callout bs-callout-success">Now that a release pipeline has been created, you can create a release and manually trigger the pipeline for testing purposes.</div>
+:ET

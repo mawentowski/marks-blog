@@ -1,0 +1,220 @@
+I"�1<!-- ## 
+This is the "Product menu" name not included in header. It
+will include a range of topics relating to using Azure and
+its totality, not just for hosting static sites.
+-->
+
+<!--
+# Setting up Azure storage static website for Jekyll
+This is the introductory page and the start of the blog
+-->
+<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i> <b>Warning:</b> The process described herein is intended for demonstrative purposes only to highlight Azure’s capabilities. You are encouraged not to use an Azure account linked to a company you do not own, and so instructions for creating a new Azure account for personal use are included. The configuration of the security settings of storage accounts linked to your organization needs to be based on your organization’s security requirements.</div>
+
+<!-- Move this to separate intro section
+## Prerequisites:
+ - Google Chrome 
+ -->
+
+<h2 id="sign-up-for-a-new-mircosoft-account">Sign Up for a new Mircosoft Account</h2>
+<p>A Microsoft account is required to sign up for a Microsoft Azure account, and the easiest way to set up an account is to sign up for Outlook email.</p>
+
+<p>If you already have a personal Microsoft Outlook email you would like to use to complete these steps, you may skip to <a href="setup-azure.html#azuresignup">Sign Up for Azure</a>.</p>
+
+<div class="alert alert-success" role="alert"><i class="fa fa-check-square-o"></i> <b>Tip:</b> It is recommended to create a new Microsoft account to keep any existing business or personal accounts separate.</div>
+
+<!-- They can do this from Azure homepage, change this.. -->
+<p><em>To create a new Microsoft account:</em></p>
+<ol>
+  <li>Go to <a href="https://outlook.live.com/owa/">https://outlook.live.com</a>.</li>
+  <li>Click <strong>Create Free Account</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/outlook-signup.png" alt="outlook-signup" /><figcaption>Sign up for an Outlook Email Address</figcaption></figure>
+
+<ol start="3">
+  <li>Follow the instructions to create a free account.</li>
+</ol>
+
+<div class="bs-callout bs-callout-success">With a Microsoft account, you may now sign up for an Azure account.</div>
+
+<h2 id="azuresignup">Sign Up for Azure</h2>
+
+<p>Azure is a cloud platform that provides cloud services, including the ability to create storage accounts to host your static sites. You must associate the Microsoft account you created previously to your new Azure account.</p>
+
+<p><em>To sign up for Azure:</em></p>
+<ol>
+  <li>Go to the <a href="https://azure.microsoft.com">Azure homepage</a>.
+    <ul>
+      <li>If you are already signed in to an Azure account (perhaps your work account), then your name will display instead of <strong>Sign In</strong>. If you are signed into your work account, click <strong>Sign Out</strong>.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Free account</strong> to create a new Azure account.</li>
+</ol>
+
+<figure><img class="docimage" src="images/azure-free.png" alt="azure-free" /><figcaption>Create free Azure account</figcaption></figure>
+
+<ol start="3">
+  <li>Click <strong>Start Free</strong>.</li>
+  <li>Select the Outlook email address you created earlier to associate to the Azure account.</li>
+  <li>Follow the onscreen directions to create the Azure account.</li>
+</ol>
+
+<div class="bs-callout bs-callout-success">After successfully signing up for an Azure account, you are directed to your Azure Portal (i.e. your personal Azure landing page).</div>
+
+<h2 id="create-a-new-azure-subscription">Create a New Azure Subscription</h2>
+<p>Sign up for a free trial subscription that includes a storage account you will use to host your static site.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The free account gives you $200 of free services for 30 days, after which you will be prompted to upgrade to a paid plan.</div>
+
+<p><em>To create a new subscripton:</em></p>
+<ol>
+  <li>Click <strong>Storage accounts</strong> underneath <strong>Azure Services</strong>. Alternatively, click the hamburger menu icon in the top-left corner and select it there.</li>
+</ol>
+
+<figure><img class="docimage" src="images/azure-services.png" alt="azure-services" /><figcaption>Select Storage Accounts</figcaption></figure>
+
+<ol start="2">
+  <li>You may be notified you currently do not have a subscription.</li>
+  <li>Follow the onscreen instructions to create a new subscription account.
+    <ul>
+      <li>You now return to your Azure portal landing page.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="bs-callout bs-callout-success">After signing up for a new subscription, you return to your landing page. You may now create a new storage account to host your static site.</div>
+
+<h2 id="create-a-new-storage-account">Create a New Storage Account</h2>
+<p>Azure Storage is a Microsoft-managed service providing cloud storage. In this case, you will be hosting your static site through this service.</p>
+
+<p><em>To create a storage account:</em></p>
+<ol>
+  <li>Once again, click <strong>Storage accounts</strong> underneath <strong>Azure Services</strong> from your Azure portal.</li>
+  <li>Click <strong>Create Storage Account</strong> below the <strong>No storage accounts to display</strong> message.</li>
+</ol>
+
+<figure><img class="docimage" src="images/create-storage-button.png" alt="create-storage-button" /><figcaption>Storage accounts Page</figcaption></figure>
+
+<ul>
+  <li>You are directed to the <strong>Create storage account</strong> page.</li>
+  <li>By default, <strong>Free Trial</strong> is selected as your subscription.</li>
+</ul>
+
+<h3 id="fill-out-basics-tab">Fill out Basics tab</h3>
+
+<p>The <strong>Basics</strong> tab allows you to control the basic settings of your storage account.</p>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The other tabs allow you to change more advanced settings that are not required for this tutorial. As such, they will not be covered.</div>
+
+<div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> <b>Important:</b>  When you go to deploy a live site later, you will need to collaborate with your developers to determine the most secure and cost efficient settings to use. It is not recommended to go live with the settings used in this tutorial.</div>
+
+<p><em>To fill out the Basics tab:</em></p>
+
+<ol>
+  <li>Under <strong>Resource group</strong>, click the <strong>Create new</strong> link.</li>
+  <li>Name it <code class="language-plaintext highlighter-rouge">static-res</code>.</li>
+</ol>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The naming used for the resource group and storage account is only an example. When you deloy your own static site, you will want to change the naming to conform to your company standards. View the article <a href="https://docs.microsoft.com/en-us/azure/azure-government/documentation-government-concept-naming-resources">Considerations for naming Azure resources</a> for more information.</div>
+
+<ol start="3">
+  <li>Enter a <strong>Storage account name</strong>, for example, <code class="language-plaintext highlighter-rouge">static-store</code> (this name may not be available).</li>
+  <li>Pick the <strong>Location</strong> from the drop-down menu that makes the most sense. If it is correct, leave it be. For example, I live in the Netherlands so the most relevant location is <code class="language-plaintext highlighter-rouge">(Europe) North Europe</code>.</li>
+  <li>Ensure the <strong>Standard</strong> radio button is selected.</li>
+  <li>Ensure the Account kind is <strong>StorageV2</strong>.
+    <ul>
+      <li>This is important because static site hosting is no longer available for a <strong>V1</strong> account.</li>
+    </ul>
+  </li>
+  <li>Ensure <strong>Read-access geo-redudant..</strong> option is selected.
+    <ul>
+      <li>Your screen should look similar to below (except with different storage account name and location).</li>
+    </ul>
+  </li>
+</ol>
+
+<figure><img class="docimage" src="images/create-storage-account.png" alt="create-storage-account" /><figcaption>Create storage account page</figcaption></figure>
+
+<!-- Do not think I need this since I am using defaults.
+### Fill out Networking tab
+
+1. Click ****Next: Data protection** at the bottom of the page, or click the **Networking** tab at the top.
+1. Select **Public endpoint (all networks)** as the **Connectivity method**.
+ You want this to be private, but I do not know how to add a virtual network or what that is. Lets do this from gmail account instead. until you
+ask about what needs to be done. -->
+
+<h3 id="review-and-create-storage-account">Review and Create Storage Account</h3>
+<p>It is time to review your changes and create the storage account.</p>
+
+<p><em>To create the storage account:</em></p>
+<ol>
+  <li>Click <strong>Review + create</strong> at the bottom of the page, or click the <strong>Review + create</strong> tab at the top.</li>
+  <li>Confirm you have the correct settings selected based on the previous instructions and click <strong>Create</strong>.</li>
+  <li>Click <strong>Go to Resource</strong> at the bottom.</li>
+</ol>
+
+<div class="bs-callout bs-callout-success">After successfully creating your storage account, you are directed to the new storage account’s page where you can configure a static site.</div>
+
+<h2 id="enable-static-website">Enable Static Website</h2>
+<p>You must enable static sites from your storage account page.</p>
+
+<p><em>To enable a static website:</em></p>
+<ol>
+  <li>Click <strong>Static website</strong> from the side navigation.</li>
+  <li>Click the <strong>Enabled</strong> radio button.</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">index.html</code> in the <strong>Index document name</strong> field.</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">404.html</code> in the <strong>Error document path</strong> field.
+    <ul>
+      <li>A <strong>successfully updated…</strong> message should display in the top-right corner, and a primary/secondary endpoint should also display on the page.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Copy the <strong>Primary endpoint</strong> and store it somewhere for retrieval later.</p>
+
+    <p>Your screen should look similar to below:</p>
+  </li>
+</ol>
+
+<figure><img class="docimage" src="images/staticsite-config.png" alt="staticsite-config" /><figcaption>Enable Static Website</figcaption></figure>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The Primary endpoint is the address where you can see your static site after publishing. It is recommended you save this endpoint to your browser as you will be visiting it a lot.</div>
+
+<div class="bs-callout bs-callout-success">Now that your storage account has been created and is ready to host static sites, the next step is to create build and release pipelines inside Azure DevOps that deploy your site to the blob storage container.</div>
+
+<h2 id="view-web-folder-in-storage-explorer-optional">View $web folder in Storage Explorer (optional)</h2>
+
+<p>You should use Azure Storage Explorer to manage your static site files.</p>
+
+<ol>
+  <li>Go to google and search for <code class="language-plaintext highlighter-rouge">Azure Storage Explorer</code>.</li>
+  <li>Download it.</li>
+  <li>From within the Explorer, click <strong>Add an account</strong>.</li>
+  <li>Ensure the <strong>Add an Azure Account</strong> radio button is selected and <strong>Azure</strong> is selected from the drop-down.</li>
+  <li>Sign in to the outlook account you created in the previous section.</li>
+  <li>With your storage account selected, click <strong>Apply</strong>.</li>
+  <li>Locate the folder <strong>$web</strong> by drilling down from <strong>Storage Accounts</strong> to <strong>Blob Containers</strong>.
+    <ul>
+      <li>This is the blob container created in the previous section that will house your static site files once they are published.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- Do Azure storage explorer here -->
+
+<!-- Insert next button like Tom's blog-->
+
+<!-- 
+Read this:
+https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website
+
+
+<!-- What you are modifying. Content is less technical. More background information like setting up azure accounts. More stepped based than explanations -->
+
+<!-- I remember you had a problem with blob storage now that I remember, another question to have>
+
+<!-- 
+/subscriptions/<subscriptionID>/resourceGroups/<ResourceGroupName>/providers/<ResourceProvider>/<ResourceType>/<ResourceName>
+-->
+
+<!-- Include test repo to demonstrate the Azure pipeline, your template!! Or bare bones template -->
+:ET

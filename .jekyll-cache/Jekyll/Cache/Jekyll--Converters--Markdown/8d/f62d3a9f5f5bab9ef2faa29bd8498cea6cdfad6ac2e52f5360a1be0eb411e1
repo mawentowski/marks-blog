@@ -1,0 +1,90 @@
+I"~<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
+
+<p>In the previous section, you set up the release pipeline.</p>
+
+<p>As a result, you may now create a release and manually trigger the pipeline for testing purposes.</p>
+
+<h2 id="create-a-new-release">Create a New Release</h2>
+
+<p>Creating a release is a way to initiate a release pipeline manually, as opposed it being initiated automatically after a build. This approach is done here for testing purposes only. The goal is to have the pipelines automatically initiated whenever a change is committed to the master branch of the repo.</p>
+
+<p><em>To create a new release:</em></p>
+<ol>
+  <li>Click <strong>Create Release</strong> at the top-right of the screen.</li>
+  <li>For <strong>Stages for trigger…</strong>, select <code class="language-plaintext highlighter-rouge">Publish Artifacts</code> (or a name you chose previously.)
+    <ul>
+      <li>For this release, the <code class="language-plaintext highlighter-rouge">Publish Artifacts</code> stage is set to trigger manually instead of automatically after a build</li>
+    </ul>
+  </li>
+  <li>For <strong>Release description</strong>, you may leave it blank.</li>
+</ol>
+
+<figure><img class="docimage" src="images/create-release.png" alt="create-release" /><figcaption>Showing published artifacts release pipeline</figcaption></figure>
+
+<ol start="4">
+  <li>Click <strong>Create</strong>.
+    <ul>
+      <li>A message displays indicating that the release was successfully created.</li>
+    </ul>
+  </li>
+</ol>
+
+<figure><img class="docimage" src="images/release-link.png" alt="release-link" /><figcaption>Release successfully created message with link</figcaption></figure>
+
+<ol start="5">
+  <li>Click the link in the message to go to the release’s page.</li>
+</ol>
+
+<h3 id="deploy-to-live-site">Deploy to Live Site</h3>
+
+<p>You may now manually trigger (i.e. deploy) the release from the release page.</p>
+
+<p><em>To deploy to the live site:</em></p>
+<ol>
+  <li>Click <strong>Publish Artifacts</strong> under <strong>Stages</strong>.
+    <ul>
+      <li>You will notice it says <em>Not Deployed</em>.</li>
+    </ul>
+  </li>
+  <li>Click the <strong>Deploy</strong> button.</li>
+</ol>
+
+<figure><img class="docimage" src="images/deploy.png" alt="deploy" /><figcaption>Release pipeline page</figcaption></figure>
+
+<ol start="5">
+  <li>Add a comment like <code class="language-plaintext highlighter-rouge">First deployment</code> and click <strong>Deploy</strong>.
+    <ul>
+      <li>If successful, it will say <code class="language-plaintext highlighter-rouge">Succeeded</code> under the name of the Agent job.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="bs-callout bs-callout-success">After successfully deploying the release, your site as now been upload to the <code class="language-plaintext highlighter-rouge">$web</code> blob storage container. You may now view your site at your static site’s primary endpoint.</div>
+
+<ol start="6">
+  <li>Go to <strong>Azure Storage Explorer</strong> and open the <code class="language-plaintext highlighter-rouge">$web</code> blog container.
+    <ul>
+      <li>You should see the static site files.</li>
+    </ul>
+  </li>
+  <li>Go to <strong>Google Chrome</strong>, enter the endpoint (URL) of your site, and hit <strong>Enter</strong>.
+    <ul>
+      <li>Your static site should load in the browser.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- Idea! DO that Azure popup for context help. You access it by clicking help on the Pipelines page.-->
+<!-- Setup Jenkinds with Github pages idea -->
+
+<h2 id="managing-deleted-files">Managing Deleted Files</h2>
+<p>If files are deleted locally, then the release pipleine will not know to remove them from the live site.</p>
+
+<p>My recommendation is to delete the files manually, both locally using Windows Explorer <!-- What about mac --> and from the live site using Azure Storage Explorer. You do not need to worry about the build pipeline, those files are always regenerated based on the files currently in your Azure repo.</p>
+
+<p>An alternative is the “clean slate” approach where you remove all files from the live site before new ones are uploaded to the <strong>Artifacts</strong> folder after a build. That way, any deleted files will not be present the next time your site is published.</p>
+
+<p>It may also be possible to add a job that somehow compares the files in the <strong>Artifacts</strong> folder after a build against the files in the live site, then subsequently looks for files no longer present and removes them. I have not experimented with this approach.</p>
+
+<p>Either way, I do not believe it is too big a hassle to clean out the old files manually, but make the best decision for your situation.</p>
+:ET

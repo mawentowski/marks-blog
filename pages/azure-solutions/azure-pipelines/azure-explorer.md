@@ -13,7 +13,7 @@ Download it.
 From within the Explorer, click **Add an account**.
 Ensure the **Add an Azure Account** radio button is selected and **Azure** is selected from the drop-down.
 Sign in to the outlook account you created in the previous section.
-WIth your storage account selected, click **Apply**.
+With your storage account selected, click **Apply**.
 Locate the folder **$web** by drilling down from **Storage Accounts** to **Blob Containers**.
    - This is the blob container created in the previous section that will house your static site files once they are published.
 

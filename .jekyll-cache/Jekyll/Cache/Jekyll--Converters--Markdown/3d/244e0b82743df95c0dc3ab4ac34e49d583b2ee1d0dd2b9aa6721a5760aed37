@@ -1,0 +1,111 @@
+I"�<h2 id="summary-of-previous-actions">Summary of Previous Actions</h2>
+<p>In the previous section, you:</p>
+<ul>
+  <li>Downloaded the sample Jekyll project and initialized a local git repo</li>
+  <li>Established a connection to the remote repo in Azure and pushed the sample project files.</li>
+</ul>
+
+<p>As a result, you may now create build and release pipelines that trigger based on changes made to the master branch of your remote repo in Azure.</p>
+
+<h2 id="build-pipeline-yaml-file-explained">Build-Pipeline YAML File Explained</h2>
+<p>In the root directory of your project, there is a definition file called <code class="language-plaintext highlighter-rouge">build-pipeline.yml</code>.</p>
+
+<p><!-- Insert screenshot? --></p>
+
+<p>This file <em>defines</em> the build and release pipelines of your static site. In essence, whenever a build is triggered (ex. a commit or merge on the <code class="language-plaintext highlighter-rouge">master</code> branch), the commands in the <code class="language-plaintext highlighter-rouge">build-pipeline.yml</code> are executed.</p>
+
+<p>Jekyll commands are run to <em>build</em> the static site (i.e. build pipeline), then the <em>release</em> pipeline publishes the build to the storage account you set up previously in the blob container at <code class="language-plaintext highlighter-rouge">$web</code>.</p>
+
+<!-- Info or tip.. -->
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The same jekyll commands you would normally execute from the command line to build your site locally are performed here, except they are now executed automatically on the server. The process of automating the build and release of code is called <em>Continuous Deployment</em> in the DevOps world, and the aim here to apply the same principles using these pipelines to documentation projects.</div>
+
+<figure><img class="docimage" src="images/build-yaml.png" alt="build-yaml" /><figcaption>Project repo in Azure showing the YAML build file</figcaption></figure>
+
+<p>Once published, your static site can then be viewed at your static sites’s endpoint (i.e. URL you type in the browser to view the site). The location of which was discussed in the previous section.</p>
+
+<!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/ruby?view=azure-devops Good resource for Ruby apps!-->
+<h3 id="summary-of-executed-commands">Summary of Executed Commands</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gem install jekyll bundler</code> - Installs Jekyll.</li>
+  <li><code class="language-plaintext highlighter-rouge">bundle install</code> - Installs the dependencies specified in your Gemfile.</li>
+  <li><code class="language-plaintext highlighter-rouge">jekyll build</code> builds the site and outputs a static site to a directory called <code class="language-plaintext highlighter-rouge">_site</code> in your project.</li>
+</ul>
+
+<p>After Jekyll successfully builds the site, the <code class="language-plaintext highlighter-rouge">_site</code> folder is copied to the build pipeline artifacts folder where it can be accessed for the build pipeline.</p>
+
+<!-- What happens in the Release pipeline? -->
+
+<!-- Dont use quotes, use italics for emphasis. Use ex. for examples, i.e. for in other words, and use code snippet for file names. Bold for onscreen buttons, etc. -->
+<h2 id="set-up-build-pipeline">Set Up Build Pipeline</h2>
+
+<p>The build pipeline executes the commands in <code class="language-plaintext highlighter-rouge">build-pipeline.yml</code>, which includes jekyll commands, as well as commands that copy the build artifacts so they can be published in the release pipeline to your storage account.</p>
+
+<p><em>To set up the build pipeline:</em></p>
+
+<ol>
+  <li>Go to <a href="https://dev.azure.com">https://dev.azure.com</a>, sign in to your account (not work account), and open your Jekyll project.</li>
+  <li>From inside your project in Azure DevOps, click <strong>Pipelines</strong>.</li>
+  <li>Click <strong>Create Pipeline</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/create-first.png" alt="create-first" /><figcaption>Pipelines page in Azure DevOps</figcaption></figure>
+
+<ol start="4">
+  <li>Select <strong>Azure Repos Git</strong>.</li>
+  <li>Select your Jekyll project.</li>
+  <li>Click <strong>Existing Azure Pipelines YAML file</strong>.</li>
+  <li>Under <strong>Path</strong>, select <code class="language-plaintext highlighter-rouge">/build-pipeline.yml</code>.</li>
+  <li>Click <strong>Continue</strong>.
+    <ul>
+      <li>A <strong>Review your pipeline YAML</strong> displays.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Run</strong> to run the build pipeline.
+    <ul>
+      <li>Under <strong>Jobs</strong>, <strong>Status</strong> should read <code class="language-plaintext highlighter-rouge">Success</code>.</li>
+    </ul>
+  </li>
+  <li>Click <code class="language-plaintext highlighter-rouge">published</code> to confirm the static site has been published to the <strong>Artifacts</strong> folder.</li>
+</ol>
+
+<figure><img class="docimage" src="images/1-published.png" alt="1-published" /><figcaption>Build Summary Page</figcaption></figure>
+
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">site</code> folder should be present as a build artifact.</li>
+</ul>
+
+<h2 id="upload-and-view-manaully">Upload and View Manaully</h2>
+<p>These steps demonstrate how to manually download the build artifacts, upload them to blob storage, then view the site at the static site’s endpoint in the browser.</p>
+
+<div class="alert alert-success" role="alert"><i class="fa fa-check-square-o"></i> <b>Tip:</b> These steps are optional, but it is a good way to understand the publication process that the release process will automate.</div>
+
+<p><em>To upload and view your site:</em></p>
+<ol>
+  <li>Click the 3 dots next to <code class="language-plaintext highlighter-rouge">site</code> folder and select <strong>Download Artifacts</strong>.</li>
+  <li>Save the folder to anywhere on your computer.</li>
+  <li>Unzip the folder (any method).</li>
+  <li>Open <strong>Azure Storage Explorer</strong> and open the <code class="language-plaintext highlighter-rouge">$web</code> folder.</li>
+  <li>Click the <strong>Upload</strong> button.
+    <ul>
+      <li>A <strong>Upload folder</strong> popup displays.</li>
+    </ul>
+  </li>
+  <li>Click <code class="language-plaintext highlighter-rouge">No folder selected</code>.</li>
+  <li>Navigate to, and select the <code class="language-plaintext highlighter-rouge">site</code> folder you downloaded previously.</li>
+  <li>Leave the other fields as is and click <strong>Upload</strong>.</li>
+  <li>Go to your browser.</li>
+  <li>Enter your static site’s endpoint (i.e. URL) and hit Enter.
+    <ul>
+      <li>The static site should display.</li>
+    </ul>
+  </li>
+  <li>Delete the <code class="language-plaintext highlighter-rouge">site</code> you uploaded to Azure Storage.</li>
+</ol>
+
+<div class="bs-callout bs-callout-success">Now that the build pipeline has been set up to build the static site, the next step is to set up the release pipeline to deploy the site.</div>
+
+<!-- Elaborate on this. Also, show screenshot -->
+<!-- Continue to Azure Storage Explorer to do a test upload, cannot figure this out -->
+
+:ET

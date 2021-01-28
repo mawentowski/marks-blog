@@ -20,25 +20,25 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Setup Static Site Pipelines
+  - title: DevOps Pipelines for Static Sites
     output: web, pdf
     folderitems:
-    - title: Configure Storage Account
-      url: /setup-azure.html
+    - title: Azure Storage Account
+      url: /azure-storage.html
       output: web
 
-    - title: Repositorie Set up
-      url: /setup-repos.html
+    - title: Git Repositories
+      url: /git-repos.html
       output: web, pdf
 
-    - title: Pipeline Set up
-      url: /setup-pipeline.html
+    - title: Build Pipeline
+      url: /build-pipeline.html
       output: web, pdf
 
-    - title: CDN
-      url: /setup-CDN.html
+    - title: Release Pipeline
+      url: /release-pipeline.html
       output: web, pdf
 
-    - title: Azure Explorer
-      url: /azure-explorer.html
+    - title: Publishing the Site
+      url: /publish-site.html
       output: web, pdf

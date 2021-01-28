@@ -1,0 +1,37 @@
+I"“<p>Azure Key Vault is service for storing keys, secrets and certificates securely so applications doesnâ€™t keep these magical things on hard disc of server. When setting up CDN we need Azure Key Vault as it is the fastest way to get HTTPS work.</p>
+
+<ol>
+  <li>Go to the <a href="https://azure.microsoft.com">Azure homepage</a>.</li>
+  <li>In the search field at the top, type <code class="language-plaintext highlighter-rouge">key vaults</code> and select it.</li>
+  <li>Click <strong>Create key vault</strong>.</li>
+</ol>
+
+<figure><img class="docimage" src="images/key-vaults.png" alt="key-vaults" /><figcaption>Enable Static Website</figcaption></figure>
+
+<ol start="4">
+  <li>Select the <strong>Resource Group</strong> you created previously (possibly <code class="language-plaintext highlighter-rouge">jekyll-site</code>)</li>
+  <li>Enter a <strong>Key vault name</strong>. I chose to make it <code class="language-plaintext highlighter-rouge">jekyll-site-key</code>.</li>
+  <li>Select <strong>Region</strong>. Ensure it is the same region as your static site. <!--warning --></li>
+</ol>
+
+<figure><img class="docimage" src="images/create-key-vault.png" alt="create-key-vault" /><figcaption>Create key vault page</figcaption></figure>
+
+<ol start="5">
+  <li>Leave the other fields the same and click <strong>Review &amp; Create</strong>.
+    <ul>
+      <li>The message <strong>Your deployment is complete should appear</strong>.</li>
+    </ul>
+  </li>
+  <li>Click <strong>Go to Resource</strong>.</li>
+  <li>Click <strong>Certificates</strong> from the side navigation.</li>
+</ol>
+
+<figure><img class="docimage" src="images/certs.png" alt="certs" /><figcaption>Key vault resource page.</figcaption></figure>
+
+<ol>
+  <li>Click <strong>Generate/Import</strong>.
+<!-- need .pfx or .pem SSL certificate.. --></li>
+</ol>
+
+<!-- I do not think you want to do this twice, only for sita.aero. GOing to talk to Doug first to get his opinion -->
+:ET

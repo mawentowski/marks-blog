@@ -25,7 +25,7 @@ topnav_dropdowns:
     - title: Solutions
       folderitems:
         - title: Azure
-          url: /setup-azure.html
+          url: /azure-storage.html
         - title: Jekyll Documentation Theme
           url: /mydoc_introduction.html
         - title: Product 1
