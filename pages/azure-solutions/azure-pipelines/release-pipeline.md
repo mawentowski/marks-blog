@@ -19,9 +19,9 @@ As a result, you may now create a release pipeline later triggers after a succes
 1. Go to [https://dev.azure.com](https://dev.azure.com), sign in to your account (not work account), and open your Jekyll project.
 1. Click **Pipelines**.
 1. Click **Releases**.
-1. If you are prompted to create a job, close this window.
+1. If you are prompted to create a job, close this window. If you see a button saying **Create Pipeline**, click it.
 1. Click the release name at the top and rename it to something like `Jekyll Release Pipeline`.
-1. Add a comment like `Renamed Pipeline.`
+1. Add a comment like `Renamed Pipeline` when you save the pipeline.
 
 ### Add an Artifact
 
@@ -102,14 +102,14 @@ The Azure CLI job uploads the build artifacts to the `$web` blob container where
 1. For **Script Location**, select `Inline Script`.
 1. Enter the following into the **Inline Script** box, replacing `account-name` with the name of your storage account: 
 
-   `az storage blob upload-batch --source site --destination $web --account-name [INSERT STORAGE ACCOUNT NAME NO BRACKETS!] --output table --no-progres`.
+   `az storage blob upload-batch --source site --destination $web --account-name [INSERT STORAGE ACCOUNT NAME NO BRACKETS!] --output table --no-progress`
 
    - The task should look like the following:
 
 {% include image.html file="upload-artifacts.png" alt="upload-artifacts" caption="Upload artifacts task populated with data" %}
 
 1. For **Working Directory**, select your project folder (not site). Here is an example:
-   -`$(System.DefaultWorkingDirectory)/_jekyll-project`
+   -`$(System.DefaultWorkingDirectory)/_jekyll-proj`
 1. Click **Save** at the top.
 1. For the **Comment**, enter something like `Initial version of release pipeline completed.`
 

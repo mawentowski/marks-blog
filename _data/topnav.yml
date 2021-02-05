@@ -1,7 +1,9 @@
 ## Topnav single links
 ## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
 topnav:
+# entries (only 1 topnav)
 - title: Topnav
+# entry items
   items:
     - title: GitHub
       external_url: https://github.com/tomjoht/documentation-theme-jekyll
@@ -10,7 +12,9 @@ topnav:
 
 #Topnav dropdowns
 topnav_dropdowns:
+# Entry, only 1
 - title: Topnav dropdowns
+# Folder
   folders:
     - title: Jekyll Help
       folderitems:

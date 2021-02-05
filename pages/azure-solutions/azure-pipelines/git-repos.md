@@ -4,7 +4,10 @@ sidebar: azure-solutions_sidebar
 permalink: git-repos.html
 folder: azure-solutions/azure-pipelines
 summary: This section guides you through the process of downloading a sample static site project from GitHub locally so it can be pushed the your remote repo in Azure. 
+series: "Azure Solutions"
+weight: 2.0
 ---
+{% include series/series-button.html %}
 <!-- Add note on distinction of shell sessions -->
 ## Summary of Previous Actions
 In the previous section, you:
@@ -143,7 +146,7 @@ Before committing files to your Azure DevOps remote repository, you must configu
 1. Open your command-line tool.
 1. Ensure you are located within your project directory.
 1. Type `git remote add origin` followed by the URL you copied previously from Azure DevOps.
-   - *Example:* `git remote add origin https://outlookUser@dev.azure.com/outlookUser/jekyll-project/_git/jekyll-project`
+   - *Example:* `git remote add origin https://outlookUser@dev.azure.com/outlookUser/jekyll-proj/_git/jekyll-proj`
 1. Type `git remote show origin` to confirm the connection between your local repo (on your machine) and the remote repo (in Azure DevOps).
    - You may be prompted to sign into Azure.
 
@@ -154,6 +157,8 @@ Before committing files to your Azure DevOps remote repository, you must configu
    - You should now see the project files you pushed from your local git repo to this remote repo in Azure.
 
 {% include callout.html content="With your project files now pushed to Azure, you are ready to beginning setting pipelines to build and publish your static site." type="success" %}
+
+{% include series/next-button.html %}
 
 <!--Blog topic -- essential Visual Studio code tools for tech writers, mardown, spellcheck>
 

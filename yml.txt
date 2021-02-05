@@ -1,0 +1,59 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+# The below is assigning sidebar as a variable so you don't have to repeat.
+# {% assign sidebar = site.data.sidebars[page.sidebar].entries %}
+
+# ENTRIES > SIDEBAR (Only 1)
+#     FOLDER > PDF/WEB
+#       FOLDER ITEMS > 
+
+entries:
+  # There is one entry, sidebar
+- title: Sidebar
+  product: Azure Solutions
+  version: 1.0
+  folders:
+  # {{site.data.sidebars.sidebartest.folder}}
+  # {% if folder.output contains "web" %} NOPE!
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+    # {% if folder.output contains "web" %} YES!
+    # {{site.data.sidebars.sidebartest.folder}}
+    # {{folder.title}}
+  - title: DevOps Pipelines for Static Sites
+    # {% if folder.output contains "web" %}
+    output: web, pdf 
+    {% for folderitem in folder.folderitems THERE IS ONLY ONE FOLDERITEM %}
+    folderitems:
+      {% for subfolders in folderitem.subfolders %}
+    # this is a folder item
+    - title: Azure Storage Account
+      url: /azure-storage.html
+      output: web
+
+    - title: Git Repositories
+      url: /git-repos.html
+      output: web, pdf
+
+    - title: Build Pipeline
+      url: /build-pipeline.html
+      output: web, pdf
+
+    - title: Release Pipeline
+      url: /release-pipeline.html
+      output: web, pdf
+
+    - title: Publishing the Site
+      url: /publish-site.html
+      output: web, pdf

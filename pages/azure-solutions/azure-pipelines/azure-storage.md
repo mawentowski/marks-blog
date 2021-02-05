@@ -4,7 +4,10 @@ sidebar: azure-solutions_sidebar
 permalink: azure-storage.html
 folder: azure-solutions/azure-pipelines
 summary: This section walks you through the process of configuring an Azure storage account to host a static site in a blob container, including signing up for a new personal Azure account and a 30-day free trial subscription.
+series: "Azure Solutions"
+weight: 1.0
 ---
+{% include series/series-button.html %}
 <!-- ## 
 This is the "Product menu" name not included in header. It
 will include a range of topics relating to using Azure and
@@ -61,7 +64,7 @@ Azure is a cloud platform that provides cloud services, including the ability to
 ## Create a New Azure Subscription
 Sign up for a free trial subscription that includes a storage account you will use to host your static site. 
 
-{% include note.html content="The free account gives you $200 of free services for 30 days, after which you will be prompted to upgrade to a paid plan." %}
+{% include note.html content="The free account gives you $200 of free services for 30 days, after which you will be prompted to upgrade to a paid plan. Also note that you may only use the subscription for one project (for example, when connecting to your subscription to the Azure CLI task)." %}
 
 *To create a new subscripton:*
 1. Click **Storage accounts** underneath **Azure Services**. Alternatively, click the hamburger menu icon in the top-left corner and select it there.
@@ -164,6 +167,7 @@ You should use Azure Storage Explorer to manage your static site files.
 1. Locate the folder **$web** by drilling down from **Storage Accounts** to **Blob Containers**.
    - This is the blob container created in the previous section that will house your static site files once they are published.
 
+{% include series/next-button.html %}
 
 <!-- Do Azure storage explorer here -->
 

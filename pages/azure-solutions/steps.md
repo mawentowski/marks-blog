@@ -3,19 +3,26 @@ Install Atom editor DONE
 Install SSH Windows and document it. DONE
 MadCap flare pipeline DONE
 Refresh CSS, HTML, and BOOTSTRAP. Not JS yet. DONE
+Customize jekyll template used. DONE
+Restructure the topic hierarchy -- need to add series
 Create videos.
     Setting up build pipeline
         Including downloading build artifacts
     Set up Release pipeline
-    Creating a release and deploy teh site
-    
+    Creating a release and deploy the site
     Other feature of Azure.
-Customize jekyll template used. No CDN.
-Restructure the topic hierarchy.
-Test out git edit button
+Test out git edit button?
 
 
+Customize Blog:
+Take udemy course from CSS atleast (possibly bootstrap).
+Replace top nav with custom nav (have to decide on elements). Research bootstrap
+Style the accordian rather than replace it.
+Change styling -- Raymond ask where style templates are.
+You need to create a blog page similar to Tom's with a different top nav.
 
+Home / Doc Ops Solutions
+Do a bunch of lorem ipsum posts
 
 -------------
 Complete portfolio blog post.
